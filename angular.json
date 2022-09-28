@@ -8,7 +8,7 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "tdl",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
