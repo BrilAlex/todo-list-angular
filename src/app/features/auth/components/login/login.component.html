@@ -1,1 +1,22 @@
-<p>login works!</p>
+<div>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div>
+      <input formControlName="email" placeholder="Enter Your email"/>
+      <div *ngIf="email!.invalid && (email!.dirty || email!.touched)">
+        <div *ngIf="email!.errors?.['required']">Email is required</div>
+        <div *ngIf="email!.errors?.['pattern']">Email isn't valid</div>
+      </div>
+    </div>
+    <div>
+      <input formControlName="password" type="password" placeholder="Enter Your password"/>
+      <div *ngIf="password!.invalid && (password!.dirty || password!.touched)">
+        <div *ngIf="password!.errors?.['required']">Password is required</div>
+        <div *ngIf="password!.errors?.['minlength']">Password must be at least 3 characters long.</div>
+      </div>
+    </div>
+    <div>
+      <input formControlName="rememberMe" type="checkbox"/> Remember me
+    </div>
+    <button type="submit" [disabled]="loginForm.invalid">Sign in</button>
+  </form>
+</div>
