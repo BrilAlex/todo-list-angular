@@ -34,5 +34,14 @@ export class TodosService {
         })
       )
       .subscribe(todos => this.todos$.next(todos));
-  }
+  };
+
+  deleteTodo(id: string) {
+    this.http
+      .delete<BaseResponse>(`${environment.baseURL}/todo-lists/${id}`)
+      .pipe(
+        map(() => this.todos$.getValue().filter(tdl => tdl.id !== id))
+      )
+      .subscribe(todos => this.todos$.next(todos));
+  };
 }

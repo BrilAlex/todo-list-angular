@@ -7,3 +7,10 @@
   padding: 10px;
   border: 2px solid #747474;
 }
+
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}

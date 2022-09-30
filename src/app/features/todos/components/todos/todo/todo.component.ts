@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DomainTodo} from "../../../models/todos.models";
 
 @Component({
@@ -8,4 +8,9 @@ import {DomainTodo} from "../../../models/todos.models";
 })
 export class TodoComponent {
   @Input() todo!: DomainTodo;
+  @Output() deleteTodoEvent = new EventEmitter<string>();
+
+  deleteTodoHandler(id: string) {
+    this.deleteTodoEvent.emit(id);
+  };
 }
