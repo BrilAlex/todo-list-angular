@@ -44,4 +44,13 @@ export class TodosService {
       )
       .subscribe(todos => this.todos$.next(todos));
   };
+
+  updateTodoTitle(id: string, title: string) {
+    this.http
+      .put<BaseResponse>(`${environment.baseURL}/todo-lists/${id}`, {title})
+      .pipe(
+        map(() => this.todos$.getValue().map((tdl => tdl.id === id ? {...tdl, title} : tdl)))
+      )
+      .subscribe(todos => this.todos$.next(todos));
+  };
 }
