@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 @Component({
   selector: 'tdl-todos',
   templateUrl: './todos.component.html',
-  styleUrls: ['./todos.component.css']
+  styleUrls: ['./todos.component.css'],
 })
 export class TodosComponent implements OnInit {
 

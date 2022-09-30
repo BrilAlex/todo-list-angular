@@ -1,5 +1,7 @@
 <div>
-  <div *ngFor="let todo of todos$ | async" class="todo">
-    {{todo.title}}
-  </div>
+  <tdl-todo
+    *ngFor="let todo of todos$ | async"
+    [todo]="todo"
+  >
+  </tdl-todo>
 </div>
