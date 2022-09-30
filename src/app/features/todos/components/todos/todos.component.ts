@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {TodosService} from "../../services/todos.service";
+import {DomainTodo} from "../../models/todos.models";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'tdl-todos',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodosComponent implements OnInit {
 
-  constructor() { }
+  todos$!: Observable<DomainTodo[]>;
+
+  constructor(private todosService: TodosService) {
+  };
 
   ngOnInit(): void {
-  }
+    this.todosService.getTodos();
+    this.todos$ = this.todosService.todos$;
+  };
 
 }
