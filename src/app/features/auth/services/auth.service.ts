@@ -22,7 +22,6 @@ export class AuthService {
     this.http
       .get<BaseResponse<MeResponseData>>(`${environment.baseURL}/auth/me`)
       .subscribe(response => {
-        console.log(response);
         if (response.resultCode === ResultCode.success) {
           this.isAuth = true;
         }
@@ -34,7 +33,6 @@ export class AuthService {
     this.http
       .post<BaseResponse<{ userId: number }>>(`${environment.baseURL}/auth/login`, data)
       .subscribe(response => {
-        console.log(response);
         if (response.resultCode === ResultCode.success) {
           this.router.navigate(["/"]);
         }
@@ -45,7 +43,6 @@ export class AuthService {
     this.http
       .delete<BaseResponse>(`${environment.baseURL}/auth/login`)
       .subscribe(response => {
-        console.log(response);
         if (response.resultCode === ResultCode.success) {
           this.router.navigate(["/login"]);
         }
