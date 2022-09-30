@@ -10,14 +10,20 @@ import {Observable} from "rxjs";
 })
 export class TodosComponent implements OnInit {
 
-  todos$!: Observable<DomainTodo[]>;
+  todos!: Observable<DomainTodo[]>;
+  newTodoTitle = "";
 
   constructor(private todosService: TodosService) {
   };
 
   ngOnInit(): void {
     this.todosService.getTodos();
-    this.todos$ = this.todosService.todos$;
+    this.todos = this.todosService.todos;
+  };
+
+  addTodo() {
+    this.todosService.addTodo(this.newTodoTitle);
+    this.newTodoTitle = "";
   };
 
 }
