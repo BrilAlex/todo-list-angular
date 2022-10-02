@@ -6,4 +6,9 @@
   />
   <button (click)="addTask()">+</button>
 </div>
-<tdl-task *ngFor="let task of tasks | async" [task]="task"></tdl-task>
+<tdl-task
+  *ngFor="let task of tasks | async"
+  [task]="task"
+  (removeTaskEvent)="removeTask($event)"
+>
+</tdl-task>

@@ -26,12 +26,25 @@ export class TasksService {
 
   addTask(todoId: string, taskTitle: string) {
     this.http
-      .post<BaseResponse<{item: Task}>>(`${environment.baseURL}/todo-lists/${todoId}/tasks`, {title: taskTitle})
+      .post<BaseResponse<{ item: Task }>>(`${environment.baseURL}/todo-lists/${todoId}/tasks`, {title: taskTitle})
       .pipe(map(response => response.data.item))
       .subscribe(newTask => {
         const tasks = this.tasks$.getValue();
         tasks[todoId] = [newTask, ...tasks[todoId]];
         this.tasks$.next(tasks);
       });
-  }
+  };
+
+  deleteTask(todoId: string, taskId: string) {
+    this.http
+      .delete<BaseResponse>(`${environment.baseURL}/todo-lists/${todoId}/tasks/${taskId}`)
+      .pipe(
+        map(() => {
+          const tasks = this.tasks$.getValue();
+          tasks[todoId] = tasks[todoId].filter(t => t.id !== taskId);
+          return tasks;
+        })
+      )
+      .subscribe((tasks) => this.tasks$.next(tasks));
+  };
 }
