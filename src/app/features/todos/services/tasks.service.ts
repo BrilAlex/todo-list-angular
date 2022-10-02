@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
-import {DomainTasks, GetTasksResponse, Task} from "../models/tasks.models";
+import {DomainTasks, GetTasksResponse, Task, UpdateTaskModel} from "../models/tasks.models";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {BaseResponse} from "../../../core/models/core.models";
 
@@ -42,6 +42,20 @@ export class TasksService {
         map(() => {
           const tasks = this.tasks$.getValue();
           tasks[todoId] = tasks[todoId].filter(t => t.id !== taskId);
+          return tasks;
+        })
+      )
+      .subscribe((tasks) => this.tasks$.next(tasks));
+  };
+
+  updateTask(todoId: string, taskId: string, model: UpdateTaskModel) {
+    this.http
+      .put<BaseResponse<{ item: Task }>>(`${environment.baseURL}/todo-lists/${todoId}/tasks/${taskId}`, model)
+      .pipe(
+        map(response => {
+          const tasks = this.tasks$.getValue();
+          const updatedTask = response.data.item;
+          tasks[todoId] = tasks[todoId].map(t => t.id === taskId ? updatedTask : t);
           return tasks;
         })
       )

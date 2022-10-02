@@ -1,7 +1,20 @@
 <div class="task">
   <div class="task-content">
-    <input type="checkbox"/>
-    <span>{{task.title}}</span>
+    <input
+      *ngIf="editMode; else taskTitle"
+      [(ngModel)]="newTitle"
+      (blur)="changeTitle()"
+      autofocus
+    />
+
+    <ng-template #taskTitle>
+      <input
+        type="checkbox"
+        (change)="changeStatus($event)"
+        [checked]="task.status === taskStatus.completed"
+      />
+      <span (dblclick)="enableEditMode()">{{task.title}}</span>
+    </ng-template>
   </div>
   <button (click)="removeTask()">X</button>
 </div>

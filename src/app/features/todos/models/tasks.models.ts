@@ -13,6 +13,8 @@ export interface Task {
   addedDate: string
 }
 
+export type UpdateTaskModel = Omit<Task, "id" | "todoListId" | "order" | "addedDate">;
+
 export interface DomainTasks {
   [todoId: string]: Task[]
 }
