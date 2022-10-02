@@ -1,1 +1,9 @@
+<div class="add-task-block">
+  <input
+    [(ngModel)]="newTaskTitle"
+    (keyup.enter)="addTask()"
+    placeholder="Add new task"
+  />
+  <button (click)="addTask()">+</button>
+</div>
 <tdl-task *ngFor="let task of tasks | async" [task]="task"></tdl-task>

@@ -13,6 +13,10 @@ export interface Task {
   addedDate: string
 }
 
+export interface DomainTasks {
+  [todoId: string]: Task[]
+}
+
 export interface GetTasksResponse {
   items: Task[]
   totalCount: number

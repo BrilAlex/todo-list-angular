@@ -1,18 +1,37 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
-import {GetTasksResponse, Task} from "../models/tasks.models";
-import {map, Observable} from "rxjs";
+import {DomainTasks, GetTasksResponse, Task} from "../models/tasks.models";
+import {BehaviorSubject, map, Observable} from "rxjs";
+import {BaseResponse} from "../../../core/models/core.models";
 
 @Injectable()
 export class TasksService {
+  private tasks$ = new BehaviorSubject<DomainTasks>({});
+  tasks = this.tasks$.asObservable();
 
   constructor(private http: HttpClient) {
   };
 
-  getTasks(todoId: string): Observable<Task[]> {
-    return this.http
+  getTasks(todoId: string) {
+    this.http
       .get<GetTasksResponse>(`${environment.baseURL}/todo-lists/${todoId}/tasks`)
-      .pipe(map(response => response.items));
+      .pipe(map(response => response.items))
+      .subscribe((items: Task[]) => {
+        const tasks = this.tasks$.getValue();
+        tasks[todoId] = items;
+        this.tasks$.next(tasks);
+      });
   };
+
+  addTask(todoId: string, taskTitle: string) {
+    this.http
+      .post<BaseResponse<{item: Task}>>(`${environment.baseURL}/todo-lists/${todoId}/tasks`, {title: taskTitle})
+      .pipe(map(response => response.data.item))
+      .subscribe(newTask => {
+        const tasks = this.tasks$.getValue();
+        tasks[todoId] = [newTask, ...tasks[todoId]];
+        this.tasks$.next(tasks);
+      });
+  }
 }
