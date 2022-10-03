@@ -8,6 +8,10 @@ import {FormsModule} from "@angular/forms";
 import {TasksComponent} from "./components/todos/todo/tasks/tasks.component";
 import {TasksService} from "./services/tasks.service";
 import {TaskComponent} from "./components/todos/todo/tasks/task/task.component";
+import {
+  TodoFiltersComponent
+} from "./components/todos/todo/tasks/todo-filters/todo-filters.component";
+import {TodoFooterComponent} from "./components/todos/todo/tasks/todo-footer/todo-footer.component";
 
 @NgModule({
   declarations: [
@@ -15,6 +19,8 @@ import {TaskComponent} from "./components/todos/todo/tasks/task/task.component";
     TodoComponent,
     TasksComponent,
     TaskComponent,
+    TodoFiltersComponent,
+    TodoFooterComponent,
   ],
   imports: [
     CommonModule,

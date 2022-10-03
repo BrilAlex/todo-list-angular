@@ -1,0 +1,15 @@
+.filters-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter {
+  padding: 5px 10px;
+  border: 2px solid #747474;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: #747474;
+  color: #fff;
+}

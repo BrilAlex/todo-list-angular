@@ -3,7 +3,7 @@
     <input [(ngModel)]="newTodoTitle" class="input" placeholder="Add new Todo"/>
     <button (click)="addTodo()">+</button>
   </div>
-  <div>
+  <div class="todos-container">
     <tdl-todo
       *ngFor="let todo of todos | async"
       [todo]="todo"

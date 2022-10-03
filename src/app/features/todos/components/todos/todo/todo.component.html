@@ -13,4 +13,6 @@
     <button (click)="deleteTodoHandler(todo.id)">X</button>
   </div>
   <tdl-tasks [todoId]="todo.id"></tdl-tasks>
+  <tdl-todo-filters></tdl-todo-filters>
+  <tdl-todo-footer [addedDate]="todo.addedDate"></tdl-todo-footer>
 </div>
