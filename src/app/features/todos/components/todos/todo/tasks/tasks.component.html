@@ -2,6 +2,7 @@
   <input
     [(ngModel)]="newTaskTitle"
     (keyup.enter)="addTask()"
+    class="input"
     placeholder="Add new task"
   />
   <button (click)="addTask()">+</button>

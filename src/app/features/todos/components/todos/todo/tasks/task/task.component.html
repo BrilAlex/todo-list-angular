@@ -1,9 +1,10 @@
 <div class="task">
-  <div class="task-content">
+  <div class="task-content" [ngClass]="{'completed': task.status === taskStatus.completed}">
     <input
       *ngIf="editMode; else taskTitle"
       [(ngModel)]="newTitle"
       (blur)="changeTitle()"
+      class="input"
       autofocus
     />
 
@@ -13,7 +14,7 @@
         (change)="changeStatus($event)"
         [checked]="task.status === taskStatus.completed"
       />
-      <span (dblclick)="enableEditMode()">{{task.title}}</span>
+      <span (dblclick)="enableEditMode()" class="title">{{task.title}}</span>
     </ng-template>
   </div>
   <button (click)="removeTask()">X</button>
