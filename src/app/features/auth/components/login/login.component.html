@@ -1,21 +1,44 @@
-<div>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<div class="form-container">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
     <div>
-      <input formControlName="email" placeholder="Enter Your email"/>
-      <div *ngIf="email!.invalid && (email!.dirty || email!.touched)">
+      <label>
+        Email:
+        <input
+          formControlName="email"
+          placeholder="Enter Your email"
+          [ngClass]="{
+            inputError: email!.invalid && (email!.dirty || email!.touched),
+            inputSuccess: email!.valid
+          }"
+        />
+      </label>
+      <div *ngIf="email!.invalid && (email!.dirty || email!.touched)" class="error">
         <div *ngIf="email!.errors?.['required']">Email is required</div>
         <div *ngIf="email!.errors?.['pattern']">Email isn't valid</div>
       </div>
     </div>
     <div>
-      <input formControlName="password" type="password" placeholder="Enter Your password"/>
-      <div *ngIf="password!.invalid && (password!.dirty || password!.touched)">
+      <label>
+        Password:
+        <input
+          formControlName="password"
+          type="password"
+          placeholder="Enter Your password"
+          [ngClass]="{
+            inputError: password!.invalid && (password!.dirty || password!.touched),
+            inputSuccess: password!.valid
+          }"
+        />
+      </label>
+      <div *ngIf="password!.invalid && (password!.dirty || password!.touched)" class="error">
         <div *ngIf="password!.errors?.['required']">Password is required</div>
-        <div *ngIf="password!.errors?.['minlength']">Password must be at least 3 characters long.</div>
+        <div *ngIf="password!.errors?.['minlength']">
+          Password must be at least 3 characters long.
+        </div>
       </div>
     </div>
     <div>
-      <input formControlName="rememberMe" type="checkbox"/> Remember me
+      <label><input formControlName="rememberMe" type="checkbox"/> Remember me</label>
     </div>
     <button type="submit" [disabled]="loginForm.invalid">Sign in</button>
   </form>
