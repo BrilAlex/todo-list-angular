@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
-import {LoginRequestData, MeResponseData} from "../models/auth.models";
+import {LoginRequestData, MeResponseData} from "../../features/auth/models/auth.models";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../../environments/environment";
-import {BaseResponse} from "../../../core/models/core.models";
+import {environment} from "../../../environments/environment";
+import {BaseResponse} from "../models/core.models";
 import {Router} from "@angular/router";
-import {ResultCode} from "../../../core/enum/resultCode.enum";
+import {ResultCode} from "../enum/resultCode.enum";
 
 @Injectable()
 export class AuthService {
