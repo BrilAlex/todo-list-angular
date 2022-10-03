@@ -1,7 +1,10 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {TasksService} from "../../../../services/tasks.service";
-import {map, Observable} from "rxjs";
-import {Task, UpdateTaskModel} from "../../../../models/tasks.models";
+import {combineLatest, map, Observable} from "rxjs";
+import {DomainTasks, Task, UpdateTaskModel} from "../../../../models/tasks.models";
+import {TodosService} from "../../../../services/todos.service";
+import {DomainTodo} from "../../../../models/todos.models";
+import {TaskStatus} from "../../../../../../core/enum/taskStatus.enum";
 
 @Component({
   selector: "tdl-tasks",
@@ -13,12 +16,26 @@ export class TasksComponent implements OnInit {
   tasks!: Observable<Task[]>;
   newTaskTitle = "";
 
-  constructor(private tasksService: TasksService) {
+  constructor(private todosService: TodosService, private tasksService: TasksService) {
   };
 
   ngOnInit(): void {
     this.tasksService.getTasks(this.todoId);
-    this.tasks = this.tasksService.tasks.pipe(map((tasks) => tasks[this.todoId]));
+    this.tasks = combineLatest([this.todosService.todos, this.tasksService.tasks]).pipe(
+      map(([todos, tasks]) => {
+        const currentTodo = todos.find(tdl => tdl.id === this.todoId);
+        let filteredTasks = tasks[this.todoId];
+
+        if (currentTodo?.filter === "active") {
+          filteredTasks = filteredTasks.filter(t => t.status === TaskStatus.active);
+        }
+        if (currentTodo?.filter === "completed") {
+          filteredTasks = filteredTasks.filter(t => t.status === TaskStatus.completed);
+        }
+
+        return filteredTasks;
+      })
+    );
   };
 
   addTask() {
@@ -30,7 +47,7 @@ export class TasksComponent implements OnInit {
     this.tasksService.deleteTask(this.todoId, taskId);
   };
 
-  updateTask(data: {taskId: string, model: UpdateTaskModel}) {
+  updateTask(data: { taskId: string, model: UpdateTaskModel }) {
     this.tasksService.updateTask(this.todoId, data.taskId, data.model);
   };
 }

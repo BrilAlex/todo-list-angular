@@ -1,18 +1,22 @@
 <div class="todo">
   <div class="todo-header">
     <input
-      *ngIf="editMode; else todoTitle"
+      *ngIf="editMode; else title"
       [(ngModel)]="newTittle"
-      (blur)="updateTodoHandler()"
+      (blur)="changeTitleHandler()"
       placeholder="Enter new title"
       autofocus
     />
-    <ng-template #todoTitle>
-      <p (dblclick)="enableEditMode()">{{todo.title}}</p>
+    <ng-template #title>
+      <h3 (dblclick)="enableEditMode()">{{todo.title}}</h3>
     </ng-template>
     <button (click)="deleteTodoHandler(todo.id)">X</button>
   </div>
   <tdl-tasks [todoId]="todo.id"></tdl-tasks>
-  <tdl-todo-filters></tdl-todo-filters>
+  <tdl-todo-filters
+    [selectedFilter]="todo.filter"
+    (changeFilterEvent)="changeFilterHandler($event)"
+  >
+  </tdl-todo-filters>
   <tdl-todo-footer [addedDate]="todo.addedDate"></tdl-todo-footer>
 </div>

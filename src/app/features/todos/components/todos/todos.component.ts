@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TodosService} from "../../services/todos.service";
-import {DomainTodo} from "../../models/todos.models";
+import {DomainTodo, FilterValue} from "../../models/todos.models";
 import {Observable} from "rxjs";
 
 @Component({
@@ -30,8 +30,8 @@ export class TodosComponent implements OnInit {
     this.todosService.deleteTodo(id);
   };
 
-  updateTodo(data: {id: string, title: string}) {
-    this.todosService.updateTodoTitle(data.id, data.title);
+  changeTodoTitle(data: { id: string, title: string }) {
+    this.todosService.changeTodoTitle(data.id, data.title);
   };
 
 }
