@@ -11,6 +11,7 @@ import {NotificationService} from "./notification.service";
 @Injectable()
 export class AuthService {
   private isAuth$ = new BehaviorSubject<boolean>(false);
+  isAuth = this.isAuth$.asObservable();
 
   constructor(
     private http: HttpClient,
