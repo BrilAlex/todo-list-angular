@@ -3,20 +3,14 @@ import {LoginRequestData, MeResponseData} from "../../features/auth/models/auth.
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {BaseResponse} from "../models/core.models";
-import {Router} from "@angular/router";
+import {Router, UrlTree} from "@angular/router";
 import {ResultCode} from "../enum/resultCode.enum";
-import {catchError, EMPTY} from "rxjs";
+import {BehaviorSubject, catchError, EMPTY, map, Observable, tap} from "rxjs";
 import {NotificationService} from "./notification.service";
 
 @Injectable()
 export class AuthService {
-  isAuth = false;
-
-  resolveAuthRequest: Function = () => {
-  };
-  authRequest = new Promise((resolve) => {
-    this.resolveAuthRequest = resolve;
-  });
+  private isAuth$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
@@ -25,16 +19,15 @@ export class AuthService {
   ) {
   };
 
-  me() {
-    this.http
+  me(): Observable<boolean | UrlTree> {
+    return this.http
       .get<BaseResponse<MeResponseData>>(`${environment.baseURL}/auth/me`)
-      .pipe(catchError(this.errorHandler.bind(this)))
-      .subscribe(response => {
-        if (response.resultCode === ResultCode.success) {
-          this.isAuth = true;
-        }
-        this.resolveAuthRequest();
-      });
+      .pipe(
+        catchError(this.errorHandler.bind(this)),
+        map((response): boolean => response.resultCode === ResultCode.success),
+        tap((isAuth): void => this.isAuth$.next(isAuth)),
+        map((isAuth): boolean | UrlTree => isAuth || this.router.createUrlTree(["/login"])),
+      );
   };
 
   login(data: Partial<LoginRequestData>) {
@@ -56,6 +49,7 @@ export class AuthService {
       .pipe(catchError(this.errorHandler.bind(this)))
       .subscribe(response => {
         if (response.resultCode === ResultCode.success) {
+          this.notificationService.handleSuccess("You successfully singed out");
           this.router.navigate(["/login"]);
         } else {
           this.notificationService.handleError(response.messages[0]);
